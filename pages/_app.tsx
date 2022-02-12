@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
-        <title>Offline Surveys</title>
+        <title>Offline First Surveys</title>
 
         <link rel="manifest" href="/manifest.json" />
         <link

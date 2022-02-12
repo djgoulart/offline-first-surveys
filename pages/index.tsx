@@ -9,8 +9,6 @@ import SurveyForm from '../surveys/Form';
 
 const Home: NextPage = () => {
 
-
-
   return (
 
     <surveysContainer.Provider>
