@@ -1,10 +1,6 @@
-import { useState } from 'react'
-
 import { firebaseApp } from '../../firebase/clientApp'
 import { getFirestore, collection, addDoc, enableIndexedDbPersistence } from "firebase/firestore"
-import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
-
-import { createContainer } from 'unstated-next'
+import { useCollection } from 'react-firebase-hooks/firestore';
 
 export interface ISurvey {
   name: string;
@@ -24,23 +20,17 @@ enableIndexedDbPersistence(db)
     }
   });
 
-
-
-function useSurveys() {
-  const [firebaseSurveys, firebaseSurveysLoading, firebaseSurveysError] = useCollection(
+export function listSurveys() {
+  const [data, loading, error] = useCollection(
     collection(db, 'surveys'),
     {
-      snapshotListenOptions: { includeMetadataChanges: true }
+      snapshotListenOptions: { includeMetadataChanges: true },
     }
   );
 
-  const surveys = firebaseSurveys?.docs
-
-  async function createSurvey({ name, pet }: ISurvey) {
-    await addDoc(collection(db, 'surveys'), { name, pet })
-  }
-
-  return { surveys, createSurvey }
+  return data?.docs;
 }
 
-export const surveysContainer = createContainer(useSurveys);
+export async function createSurvey({ name, pet }: ISurvey) {
+  await addDoc(collection(db, 'surveys'), { name, pet })
+}

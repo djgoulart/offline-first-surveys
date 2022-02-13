@@ -1,36 +1,41 @@
 import React from 'react'
-import { surveysContainer } from "../hooks/useSurveys";
+import { Icon } from '@chakra-ui/react'
+import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { BsCheck, BsCheckAll } from 'react-icons/bs'
+import { RiWifiOffLine } from 'react-icons/ri'
+import { listSurveys } from "../hooks/useSurveys"
 
-export default function SurveysTable() {
-  const { surveys } = surveysContainer.useContainer()
 
+export const SurveysTable: React.FC = () => {
+  const surveys = listSurveys()
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Pet</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <Thead>
+        <Tr>
+          <Th>Name</Th>
+          <Th>Pet</Th>
+          <Th>Status</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
         {
           surveys && (
             surveys.map((item) => {
 
               return (
-                <tr key={item.id}>
-                  <td>{item.get('name')}</td>
-                  <td>{item.get('pet')}</td>
-                  <td>
-                    {item.metadata.fromCache && 'local' || 'online'}
-                    {item.metadata.hasPendingWrites && 'outdated'}
-                  </td>
-                </tr>
+                <Tr key={item.id}>
+                  <Td>{item.get('name')}</Td>
+                  <Td>{item.get('pet')}</Td>
+                  <Td>
+                    {item.metadata.fromCache && <Icon as={BsCheck} /> || <Icon as={BsCheckAll} color={"brand.green"} />}
+                    {item.metadata.hasPendingWrites && <Icon as={RiWifiOffLine} color={"gray.500"} />}
+                  </Td>
+                </Tr>
               )
             })
           )
         }
-      </tbody>
-    </table>
+      </Tbody>
+    </Table>
   )
 }
