@@ -1,48 +1,60 @@
+import { Button, Container, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import React, { FormEvent, useState } from 'react'
-import { surveysContainer } from '../hooks/useSurveys'
+import { createSurvey } from '../hooks/useSurveys'
 
 const SurveyForm: React.FC = () => {
   const [name, setName] = useState('')
   const [pet, setPet] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const { createSurvey } = surveysContainer.useContainer()
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    setLoading(true);
+    createSurvey({ name, pet });
 
-    await createSurvey({ name, pet })
-
+    setLoading(false);
     setName('')
     setPet('')
   }
 
   return (
-    <div>
+    <Container>
       <form onSubmit={(e) => { handleSubmit(e) }}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input type="text"
+        <FormControl mt={5}>
+          <FormLabel htmlFor="name">Name</FormLabel>
+          <Input type="text"
+            id='name'
             name='name'
             placeholder='Your name'
             value={name}
             onChange={e => setName(e.target.value)}
           />
-        </div>
-
-        <div>
-          <label htmlFor="pet">Pet</label>
-          <input type="text"
+        </FormControl>
+        <FormControl mt={5}>
+          <FormLabel htmlFor="pet">Pet</FormLabel>
+          <Input type="text"
+            id='pet'
             name='pet'
-            placeholder='Your favorite pet type'
+            placeholder='Your pet'
             value={pet}
             onChange={e => setPet(e.target.value)}
           />
-        </div>
+        </FormControl>
 
-        <button type='submit'>Submit</button>
+        <Button type='submit'
+          isLoading={loading}
+          loadingText='Submitting'
+          colorScheme='teal'
+          variant='outline'
+          mt={5}
+          mb={5}
+        >
+          Submit
+        </Button>
       </form>
-    </div>
+    </Container>
   );
 }
 
-export default SurveyForm;
+export { SurveyForm };

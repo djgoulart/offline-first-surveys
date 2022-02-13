@@ -1,5 +1,8 @@
-import Head from 'next/head'
 import type { AppProps } from 'next/app'
+import { ChakraProvider } from '@chakra-ui/react'
+import { theme } from '../theme'
+import Head from 'next/head'
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -29,9 +32,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           sizes="32x32"
         />
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
-        <meta name="theme-color" content="#317EFB" />
+        <meta name="theme-color" content="#4219B5" />
       </Head>
-      <Component {...pageProps} />
+
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </>
   )
 }
